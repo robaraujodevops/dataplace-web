@@ -1,33 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { useForm, ErrorMessage } from "react-hook-form";
 import api from "../../services/api";
-import { login } from "../../services/auth"
-
-import { Head, customBackendErrors } from "../../helpers";
+import { login, isAuthenticated } from "../../services/auth"
+import { Helmet } from "react-helmet";
+import { customBackendErrors } from "../../helpers";
 import { Link, useHistory } from "react-router-dom";
 
 import { Form, Container, Section } from "./styles";
 
 export default function SignIn() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('')
-    const { register, errors, handleSubmit } = useForm()
-    const history = useHistory();
+    const [logged, setLogged] = useState(isAuthenticated())
 
+    const { register, errors, handleSubmit } = useForm()
+    
+    const history = useHistory();
+    
+    if(logged) history.push("/admin")
     const handleSingIn = async formData => {
         try{
             const { data } = await api.post("/sessions", formData);
-            console.log(data)
-            if(data.name && data.name === "error" ){
-                setError(customBackendErrors(data.code));
-            }if(data.token && data.type === "bearer"){
+
+            if(data.name 
+                && data.name === "error" ){
+                setError(customBackendErrors(data.code))
+            }
+            
+            if(data.token 
+                && data.type === "bearer"){
                 login(data.token)
-                history.push("/admin");
+                setLogged(isAuthenticated())
+                history.go("/admin")
             }
-            else{
-                history.push("/signin");
-            }
+
         }catch(err){
            setError(err.message);
         }
@@ -35,11 +42,11 @@ export default function SignIn() {
 
     useEffect(() => {
         setError("");
-    }, [username, password])
+    }, [email, password])
 
     return (
         <>
-        <Head title="Dataplace - Admin - SignIn" />
+        <Helmet title="Dataplace - Admin - SignIn" />
         <Container>
             {/*<a className="hiddenanchor" id="signup"></a>
             <a className="hiddenanchor" id="signin"></a>*/}
@@ -55,11 +62,11 @@ export default function SignIn() {
                                     type="text"
                                     className="form-control"
                                     placeholder="E-mail do Usuário"
-                                    name="username"
+                                    name="email"
                                     ref={register({required: true})}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
-                                <ErrorMessage errors={errors} name="username">
+                                <ErrorMessage errors={errors} name="email">
                                     {({ message }) => <p className="error">* Insira o nome de usuário</p>}
                                 </ErrorMessage>
                             </Container>

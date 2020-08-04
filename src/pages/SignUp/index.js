@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useForm, ErrorMessage } from "react-hook-form";
 import api from "../../services/api";
-import { Head, customBackendErrors } from "../../helpers";
+import { customBackendErrors } from "../../helpers";
+import { Helmet } from "react-helmet";
 import { Link, useHistory } from "react-router-dom";
 
 import { Form, Container, Section } from "./styles";
@@ -36,7 +37,7 @@ export default function SignUp() {
 
     return (
         <>
-        <Head title="Dataplace - Admin - Signup" />
+        <Helmet title="Dataplace - Admin - Signup" />
         <Container>
             {/*<a className="hiddenanchor" id="signup"></a>
             <a className="hiddenanchor" id="signin"></a>*/}
@@ -99,7 +100,7 @@ export default function SignUp() {
                         <Container className="clearfix"></Container>
                         <Container className="separator">
                             <p className="change_link">Já possui conta ?
-                            <Link to="/" className="to_register"> Acessar </Link>
+                            <Link to="/signin" className="to_register"> Acessar </Link>
                             </p>
 
                             <Container className="clearfix"></Container>

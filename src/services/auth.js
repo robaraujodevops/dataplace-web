@@ -13,15 +13,17 @@ export const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
 };
 
-export const PrivateRoute = ({ component: Component, ...rest}) => (
+export const PrivateRoute = ({ component: Component, page, ...rest}) => {
+    
+    return (
     <Route
         {...rest}
         render={props => 
             isAuthenticated() ? (
-                <Component {...props} />
+                <Component {...props} page={page} />
             ) : (
                 <Redirect to={{ pathname: "/signin", state: { from: props.location } }} />
             )
         }
     />
-);
+)};
