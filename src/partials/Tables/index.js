@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import $ from "jquery"
 import "datatables.net"
@@ -15,12 +15,13 @@ Tables.propTypes = {
 }
 
 export default function Tables({comp,src,cols,colDefs,colsTh}) {
-    
+    const [tableSrc, setTableSrc] = useState(src)
+    if (tableSrc != src) setTableSrc(src)
 
     useEffect(() => {
         $("#datatable").DataTable().destroy()
         $("#datatable").DataTable({
-            "autoWidth": true,
+            "autoWidth": false,
             "language": {
                 "processing": "<div class='lds-default'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>",
                 "search": "Buscar",
@@ -35,9 +36,9 @@ export default function Tables({comp,src,cols,colDefs,colsTh}) {
             },
             "processing": true, 
             "serverSide": true, 
-            "dataSrc": "",
+            "dataSrc": "teste",
             "ajax": {
-                "url":`http://127.0.0.1:3333/${src}`,
+                "url":`http://127.0.0.1:3333/${tableSrc}`,
                 "beforeSend": function (request) {
                     
                     let header = document.querySelectorAll("select[name='datatable_length'], input[aria-controls='datatable'")
@@ -51,7 +52,7 @@ export default function Tables({comp,src,cols,colDefs,colsTh}) {
             "columns": cols,
             "columnDefs": colDefs
         })
-    }, [])
+    }, [tableSrc])
 
     return (
         <>

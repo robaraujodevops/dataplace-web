@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { dataMenu } from "../data-menu"
 import { PageMenu } from "./styles"
 import SubItemMenu from "./SubItemMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {CSSTransition} from 'react-transition-group';
 import { Link } from "react-router-dom";
+import { SideBarContext } from "../../Contexts";
 
 export default function SideBar(props) {
     const [items, setItems] = useState(dataMenu);
+    const { page, subpage } = props;
+    
     const menuRunner = (page) => {
+        
         items.map((item) => {
-            let active = item.page === page 
-            item.active = active ? true : false;
+            item.active = item.page.includes(page, 0) ? true : false;
 
             if(item.sub) item.sub.map((sub) => sub.active = false )
             
-            return active;
         })
 
         setItems([...items])
 
         return;
     }
-
+    
     const toggle = (ev) => {
         ev.preventDefault()
         let page = ev.currentTarget.dataset.page
@@ -30,7 +32,7 @@ export default function SideBar(props) {
     }
 
     useEffect(() => {
-        menuRunner(props.page)
+        menuRunner(page)
     }, [])
 
     return (

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import api from "../../services/api";
 import { capitalize, zipCodeSanitize } from "../../helpers";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Tables from "../../partials/Tables";
 import Tabs from "../../partials/Tabs";
 
@@ -12,13 +12,30 @@ import Map from "../../partials/Map"
 Predio.propTypes = {
     data: PropTypes.object.isRequired
 }
-export default function Predio(props) {
-		const {id} = props.params;
+export default function Predio() {
+	    
+		const {id} = useParams();
 		const [predio, setPredio] = useState({});
 		const {info,add,contact = {}} = predio;
 		const {telephone = {},site,email = {}} = contact;
 		const {numbers} = telephone;
 		const {adds} = email;
+
+		const tabContent = [
+			{
+				"component":"atividadesrecentes",
+				"tag":"Atividades Recentes",
+				"active": true
+			},
+			{
+				"component":"galeria",
+				"tag":"Galeria"
+			},
+			{
+				"component":"unidades",
+				"tag":"Unidades"
+			}
+		]
 
 		useEffect(() => {
 			api.get(`/builds/${id}`).then((resp) => {
@@ -51,8 +68,6 @@ export default function Predio(props) {
 			if(!developer_name) var developer_name;
 			developer_name = (info.developer_name ? capitalize(`${info.developer_name }`) : "" );
 		}
-		
-		console.log(info,add,numbers)
 
     return (
       <>
@@ -99,9 +114,8 @@ export default function Predio(props) {
 															className="fa"
 														/>
 														<ul className="list-unstyled">
-															{numbers.map((t) => {
-																return <li>({t[0]}) {t[1]}</li>
-																	console.log(t)
+															{numbers.map((t,i) => {
+																return <li key={i}>{`(${t[0]})`} {t[1]}</li>
 															})}
 														</ul>
 													</>
@@ -115,9 +129,8 @@ export default function Predio(props) {
 															className="fa"
 														/>
 														<ul className="list-unstyled">
-															{adds.map((e) => {
-																return <li>{e}</li>
-																	console.log(e)
+															{adds.map((a,i) => {
+																return <li key={i}>{a}</li>
 															})}
 														</ul>
 													</>
@@ -183,11 +196,7 @@ export default function Predio(props) {
 
 										{rua && bairro && <Map search={`${rua} ${bairro}`} />}
 
-										<Tabs src={[
-											{"comp":"Panela","tag":"Atividades Recentes"},
-											{"comp":"Panelb","tag":"Outras Infos"},
-											{"comp":"Panela","tag":"Unidades"},
-										]}/>
+										<Tabs src={tabContent} build_id={id} />
 									</div>
 								</div>
 							</div>

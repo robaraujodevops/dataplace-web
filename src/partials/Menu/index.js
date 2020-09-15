@@ -6,8 +6,10 @@ import SideBar from "./SideBar/";
 import SideBarFooter from "./SideBarFooter";
 
 export default function Menu(props) {
+    const { page, subPage } = props;
+    
     return (
-        <div className="col-md-3 left_col">
+        <div className="col-md-3 left_col menu_fixed">
             <div className="left_col scroll-view">
                 <Navbar className="navbar nav_title">
                     <a href="index.html" className="site_title">
@@ -17,7 +19,7 @@ export default function Menu(props) {
                 <div className="clearfix"></div>
 
                 <Profile />
-                <SideBar setPage={props.setPage} page={props.page}/>
+                <SideBar page={page} subPage={subPage} />
                 <SideBarFooter />
             </div>
         </div>

@@ -32,18 +32,18 @@ export const dataMenu =
         active: false,
         sub: [
             {
-                name: "Flats",
-                page: "flats",
+                name: "Flat",
+                page: "flat",
                 active: false
             },
             {
-                name: "Convencionais",
-                page: "convencionais",
+                name: "Convencional",
+                page: "convencional",
                 active: false
             },
             {
-                name: "Comerciais",
-                page: "comerciais",
+                name: "Comercial",
+                page: "comercial",
                 active: false
             }
         ]

@@ -76,3 +76,13 @@ export const useScripts = (src) => {
     return [state.loaded, state.error];
 
 }
+
+export const clearClass = (elsRange, classes) => {
+    elsRange.forEach(els => {
+        els.forEach(el => {
+            classes.forEach(cl =>
+                el.classList.remove(cl)
+            )
+        })
+    })
+}

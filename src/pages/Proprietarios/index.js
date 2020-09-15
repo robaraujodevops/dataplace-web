@@ -6,10 +6,10 @@ import Tables from "../../partials/Tables"
 import { Link } from "react-router-dom";
 
 Proprietarios.propTypes = {
-    data: PropTypes.object.isRequired
+    page: PropTypes.string.isRequired,
+    subpage: PropTypes.string
 }
-export default function Proprietarios({data}) {
-    const {page, subpage} = data
+export default function Proprietarios({page,subpage}) {
 
     return (
         <>

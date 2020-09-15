@@ -6,11 +6,11 @@ import Tables from "../../partials/Tables"
 import { Link } from "react-router-dom";
 
 Unidades.propTypes = {
-    data: PropTypes.object.isRequired
+    page: PropTypes.string.isRequired,
+    subpage: PropTypes.string.isRequired
 }
 
-export default function Unidades({data}) {
-    const {page, subpage} = data
+export default function Unidades({page,subpage}) {
 
     return (
         <div className="row">
@@ -65,6 +65,13 @@ export default function Unidades({data}) {
                                 {
                                     "targets": 0,
                                     "data": "id",
+                                    "render": function ( data ) {
+                                        return `<a href='${data}'><b>${data}</b></Link>`
+                                    }
+                                },
+                                {
+                                    "targets": 1,
+                                    "data": "build_id",
                                     "render": function ( data ) {
                                         return `<a href='${data}'><b>${data}</b></Link>`
                                     }

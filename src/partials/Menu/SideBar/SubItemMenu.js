@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Link } from "react-router-dom";
 
 export default function SubItemMenu(props) {
+    const mainPage = props.page;
 
     const [items, setItems] = useState(props.data)
 
@@ -10,9 +11,9 @@ export default function SubItemMenu(props) {
         ev.stopPropagation()
         let page = ev.currentTarget.dataset.page
         
-        items.map((item) => 
+        items.map((item) =>{
             item.active = item.page === page ? true : false
-        )
+        })
 
         setItems([...items])
     }
@@ -28,8 +29,7 @@ export default function SubItemMenu(props) {
                     
                     <Link to={
                         {
-                            pathname: props.page,
-                            subpage: page
+                            pathname: mainPage + page + "/"
                         }
                     }>
                         {name}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
 import mapboxgl from 'mapbox-gl';
 import apiMap from '../../services/apiMap';
+import "./style.scss"
 
 export default function Map(props) {
     const [map, setMap] = useState(null);
@@ -21,7 +21,7 @@ export default function Map(props) {
             
             setCenter(center)
           });
-    }, [])
+    }, [search])
 
         useEffect(() => {
             mapboxgl.accessToken = 'pk.eyJ1IjoiYmV0b2FyYXVqb2RldiIsImEiOiJjanp1ODBqdXUwZGIzM2NwOWd2aHBsOXBoIn0.daYvo0BHuimsuTuNzaoy6A';

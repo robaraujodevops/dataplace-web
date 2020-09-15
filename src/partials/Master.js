@@ -5,6 +5,7 @@ import { SideBarContext } from "./Contexts";
 import { MainContentContext } from "./Contexts";
 import api from "../services/api";
 import Main from "./Main";
+import { useContext } from "react";
 
 export default function Master(props) {
   const [user, setUser] = useState({});
@@ -14,7 +15,7 @@ export default function Master(props) {
     page: props.page,
     subpage: props.location.subpage  || undefined
   };
-  
+
   const handleClick = () => {
     setMenuColapse(!menuColapse);
   };
@@ -23,15 +24,16 @@ export default function Master(props) {
     api.get("/sessions").then((resp) => {
       setUser(resp.data)
     })
+    
   }, []);
-
+  
   return (
       <div className={"container body " + (menuColapse ? "nav-sm" : "nav-md") } >
       <MainContentContext.Provider value={{user}}>
         <div className="main_container">
-          <Menu colapse={menuColapse} page={props.match.url} />
-          <TopNav handleClick={handleClick} />
-          <Main data={mainData} params={props.match.params}/>
+            <Menu colapse={menuColapse} page={mainData.page} subPage={mainData.subpage} />          
+            <TopNav handleClick={handleClick} />
+            <Main page={mainData.page} subPage={mainData.subpage} params={props.match.params}/>
         </div>
       </MainContentContext.Provider>
       </div>

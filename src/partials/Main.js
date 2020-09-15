@@ -1,24 +1,24 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { Helmet } from "react-helmet";
 import { capitalize } from "../helpers"
 import Unidades from "../pages/Unidades/";
 import Predios from "../pages/Predios/";
 import Predio from "../pages/Predio/";
 import Proprietarios from "../pages/Proprietarios/";
+import { SideBarContext } from "./Contexts";
 
 export default function Main(props){
-    const {page, subpage} = props.data;
-    const {params} = props;
+    const { page, params } = props;
     const getComponent = (page) => {
         switch(page){
             case "proprietarios":
-                return <Proprietarios data={props.data}/>
+                return <Proprietarios {...props} />
             case "unidades":
-                return <Unidades data={props.data}/>
+                return <Unidades {...props}/>
             case "predios":
-                return <Predios data={props.data}/>
+                return <Predios {...props} />
             case "predio":
-                return <Predio data={props.data} params={params} />
+                return <Predio {...props} />
             default:
                 return <div></div>
         }

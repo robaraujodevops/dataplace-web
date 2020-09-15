@@ -1,15 +1,19 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import { capitalize } from "../../helpers"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Tables from "../../partials/Tables"
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 Predios.propTypes = {
-    data: PropTypes.object.isRequired
+    page: PropTypes.string.isRequired,
+    subpage: PropTypes.string.isRequired
 }
-export default function Predios({data}) {
-    const {page, subpage} = data
+export default function Predios({page, subpage}) {
+    const param = useParams().classe
+    const [classe, setClasse] = useState(param);
+    
+    if (classe != param) setClasse(param)
 
     return (
         <div className="row">
@@ -50,9 +54,9 @@ export default function Predios({data}) {
                         <Tables 
                             comp={{
                                 "scope": "Prédios",
-                                "holder": "Nome do Prédio"
+                                "holder": "Id, Nome, Bairro, Adm., Const."
                             }}
-                            src="builds"
+                            src={"builds" + (classe ? `?classe=${classe}` : "")}
                             colsTh={["ID","Nome","Bairro","Administradora","Construtora","Data de Construção"]}
                             cols={[
                                 { data: "id" },
@@ -67,7 +71,7 @@ export default function Predios({data}) {
                                     "targets": 0,
                                     "data": "id",
                                     "render": function ( data ) {
-                                        return `<a href='${data}'><b>${data}</b></Link>`
+                                        return `<a href='/admin/predio/${data}'><b>${data}</b></Link>`
                                     }
                                 },
                                 { width: 500, targets: 1 },
