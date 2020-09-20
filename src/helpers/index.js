@@ -86,3 +86,16 @@ export const clearClass = (elsRange, classes) => {
         })
     })
 }
+
+export const dateParser = (date, comp) => {
+    let d = new Date(date)
+    const months = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"]
+
+    switch(comp) {
+        case "recent-activities":
+            return {
+                day: d.getDay(),
+                month: months[d.getMonth()]
+            }
+    }
+}

@@ -9,10 +9,10 @@ const Components = {
     unidades: Unidades
  };
 
-export default (block,build_id) => {
+export default (block) => {
 
     if (typeof Components[block.component] !== "undefined") {
-        return React.createElement(Components[block.component], {key: block.tag, build_id: build_id});
+        return React.createElement(Components[block.component], {key: block.component, block});
     }
 
     return React.createElement(

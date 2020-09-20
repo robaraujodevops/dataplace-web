@@ -2929,10 +2929,22 @@ html , body{
      height: 1px;
      margin: 10px 0
  }
+ 
  ul.messages {
      padding: 0;
-     list-style: none
+     list-style: none;
+
+     &.scroll{
+      max-height: 450px;
+      overflow: scroll;
+      scroll-behavior: smooth;
+
+      &::-webkit-scrollbar{
+        display:none
+      }
+     }
  }
+
  ul.messages li,
  .tasks li {
      border-bottom: 1px dotted #e6e6e6;

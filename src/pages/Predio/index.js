@@ -9,14 +9,11 @@ import Tabs from "../../partials/Tabs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Map from "../../partials/Map"
 
-Predio.propTypes = {
-    data: PropTypes.object.isRequired
-}
 export default function Predio() {
 	    
 		const {id} = useParams();
 		const [predio, setPredio] = useState({});
-		const {info,add,contact = {}} = predio;
+		const {info,add,contact = {},images = []} = predio;
 		const {telephone = {},site,email = {}} = contact;
 		const {numbers} = telephone;
 		const {adds} = email;
@@ -29,7 +26,8 @@ export default function Predio() {
 			},
 			{
 				"component":"galeria",
-				"tag":"Galeria"
+				"tag":"Galeria",
+				"images": images
 			},
 			{
 				"component":"unidades",
@@ -196,7 +194,7 @@ export default function Predio() {
 
 										{rua && bairro && <Map search={`${rua} ${bairro}`} />}
 
-										<Tabs src={tabContent} build_id={id} />
+										<Tabs src={tabContent} />
 									</div>
 								</div>
 							</div>

@@ -3,11 +3,11 @@ import { MainContentContext } from "../Contexts";
 
 export default function Profile() {
     const { user } = useContext(MainContentContext)
-    
+    console.log(user)
     return (
         <div className="profile clearfix">
             <div className="profile_pic">
-                {user.avatar_img && <img src={"/"+user.avatar_img} alt="..." className="img-circle profile_img" />}
+                {user.id && <img src={`/images/admin/users/${user.id}.jpeg`} alt="..." className="img-circle profile_img" />}
             </div>
             <div className="profile_info">
                 {user.name && 
