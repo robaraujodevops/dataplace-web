@@ -13,11 +13,8 @@ const Routes = () => (
             <PrivateRoute exact path="/admin/analytics" component={ Master } page="analytics" />
             <PrivateRoute exact path="/admin/unidades" component={ Master } page="unidades" />
             <PrivateRoute exact path="/admin/proprietarios" component={ Master } page="proprietarios" />
-            <PrivateRoute path="/admin/predios/:classe?" component={ Master } page="predios" />
+            <PrivateRoute exact path="/admin/predios/:classe?" component={ Master } page="predios" />
             <PrivateRoute exact path="/admin/predio/:id" component={ Master } page="predio" />
-            <Route exact path="/">
-                <Redirect to="/admin/analytics" />
-            </Route>
             <Route path="*" component={() => <h1>Page Not Found</h1> } />
         </Switch>
     </BrowserRouter>

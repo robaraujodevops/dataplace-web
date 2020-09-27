@@ -29,7 +29,7 @@ export default props => {
                     const { day, month } = dateParser(updated_at, "recent-activities")
 
                     return (
-                        <li>
+                        <li key={id}>
                             <img src={`/images/admin/users/${user_id}.jpeg`} className="avatar" alt="Avatar" />
                             <div className="message_date">
                                 <h3 className="date text-info">{day}</h3>

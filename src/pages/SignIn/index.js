@@ -8,7 +8,7 @@ import { Link, useHistory } from "react-router-dom";
 
 import { Form, Container, Section } from "./styles";
 
-export default function SignIn() {
+export default function SignIn(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('')
@@ -18,7 +18,9 @@ export default function SignIn() {
     
     const history = useHistory();
     
-    if(logged) history.push("/admin")
+    if(logged) history.push("/admin/analytics")
+
+    console.log("inSignin", props)
     const handleSingIn = async formData => {
         try{
             const { data } = await api.post("/sessions", formData);
@@ -32,7 +34,7 @@ export default function SignIn() {
                 && data.type === "bearer"){
                 login(data.token)
                 setLogged(isAuthenticated())
-                history.go("/admin")
+                history.go("/admin/analytics")
             }
 
         }catch(err){
@@ -90,9 +92,12 @@ export default function SignIn() {
                                 <button type="submit" className="btn btn-default submit">Log in</button>
                                 {/*<a className="reset_pass" href="#">Lost your password?</a>*/}
                             </Container>
+                            
 
                             <Container className="clearfix"></Container>
 
+                            {props.location.state && props.location.state.redirect && <div>You are not logged</div> }
+                            
                             <Container className="separator">
                                 <p className="change_link">Novo usuário?
                                 <Link className="to_register" to="/signup"> Criar Conta </Link>

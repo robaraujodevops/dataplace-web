@@ -14,16 +14,17 @@ export const logout = () => {
 };
 
 export const PrivateRoute = ({ component: Component, page, ...rest}) => {
-    
+
     return (
     <Route
         {...rest}
-        render={props => 
-            isAuthenticated() ? (
-                <Component {...props} page={page} />
-            ) : (
-                <Redirect to={{ pathname: "/signin", state: { from: props.location } }} />
-            )
+        render={props => {
+                return isAuthenticated() ? (
+                    <Component {...props} page={page} />
+                ) : (
+                    <Redirect to={{ pathname: "/signin", state: { from: props.location, redirect: true } }} />
+                )
+            } 
         }
     />
 )};

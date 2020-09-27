@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
 import api from "../../services/api";
 import { capitalize, zipCodeSanitize } from "../../helpers";
 import { Link, useParams } from "react-router-dom";
-import Tables from "../../partials/Tables";
 import Tabs from "../../partials/Tabs";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Map from "../../partials/Map"
+
+import { Thumb } from "./styles";
 
 export default function Predio() {
 	    
@@ -83,9 +83,9 @@ export default function Predio() {
 								<div className="x_content profile">
 									<div className="col-md-3 col-sm-3 col-xs-12 profile_left">
 										<div className="profile_img">
-											<div id="crop-avatar">
+											<Thumb>
 												<img className="img-responsive avatar-view" src={`/images/builds/${id}/thumb.jpg`} alt="Avatar" title="Change the avatar" />
-											</div>
+											</Thumb>
 										</div>
 										{info ? <h3>{capitalize(info.build_name)}</h3> : <h3></h3>}
 										<h4>Contato e Localização</h4>
@@ -186,11 +186,11 @@ export default function Predio() {
 									</div>
 									<div className="col-md-9 col-sm-9 col-xs-12">
 
-										<div className="profile_title">
+										{/* <div className="profile_title">
 											<div className="col-md-6">
 												<h2>Geolocalização</h2>
 											</div>
-										</div>
+										</div> */}
 
 										{rua && bairro && <Map search={`${rua} ${bairro}`} />}
 
