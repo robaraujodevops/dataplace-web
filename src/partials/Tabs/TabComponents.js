@@ -10,7 +10,6 @@ const Components = {
  };
 
 export default (block) => {
-
     if (typeof Components[block.component] !== "undefined") {
         return React.createElement(Components[block.component], {key: block.component, block});
     }

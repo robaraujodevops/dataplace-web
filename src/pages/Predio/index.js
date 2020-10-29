@@ -22,11 +22,11 @@ export default function Predio() {
 			{
 				"component":"atividadesrecentes",
 				"tag":"Atividades Recentes",
-				"active": true
 			},
 			{
 				"component":"galeria",
 				"tag":"Galeria",
+				"active": true,
 				"images": images
 			},
 			{

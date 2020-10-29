@@ -4,6 +4,7 @@ import { dateParser } from "../../../helpers"
 import { useParams } from "react-router-dom";
 
 export default props => {
+    const {active} = props.block;
     const {id} = useParams();
     const [activities, setActivies] = useState([])
 
@@ -14,7 +15,7 @@ export default props => {
     }, [])
 
     return (
-        <div key="atividades-recentes" role="tabpanel" className="tab-pane fade active in" id="tab_atividadesrecentes" aria-labelledby="atividadesrecentes-tab">
+        <div key="atividades-recentes" role="tabpanel" className={`tab-pane fade ${active ? "active in" : ""}`} id="tab_atividadesrecentes" aria-labelledby="atividadesrecentes-tab">
             <ul className="messages scroll">
                 {activities.map(({
                     avatar_img,

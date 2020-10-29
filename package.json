@@ -55,6 +55,8 @@
   },
   "devDependencies": {
     "datatables.net": "^1.10.21",
-    "jquery": "^3.5.1"
+    "dotenv": "^8.2.0",
+    "jquery": "^3.5.1",
+    "react-app-env": "^1.2.3"
   }
 }

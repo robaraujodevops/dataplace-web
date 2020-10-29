@@ -25,7 +25,7 @@ export default function Map(props) {
     }, [search])
 
         useEffect(() => {
-            mapboxgl.accessToken = 'pk.eyJ1IjoiYmV0b2FyYXVqb2RldiIsImEiOiJjanp1ODBqdXUwZGIzM2NwOWd2aHBsOXBoIn0.daYvo0BHuimsuTuNzaoy6A';
+            mapboxgl.accessToken = `${process.env.REACT_APP_MAP_TOKEN}`;
             const initializeMap = ({ setMap, mapContainer }) => {
                 const map = new mapboxgl.Map({
                   container: mapContainer.current,

@@ -1,110 +1,136 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { 
-    Controls, 
-    Holder,
-    Slider,
-    ArrowField, 
-    ArrowPrev, 
-    ArrowNext,
-    MenuGallery,
-    PhotoGallery,
-    PhotoList
+import {
+	GalleryMain,
+	Controls,
+	Holder,
+  Slider,
+  GridPos,
+  GridPosItem,
+	ArrowField,
+	ArrowPrev,
+	ArrowNext,
+  MenuGallery,
+  MenuLIstGallery,
+	PhotoGallery,
+	PhotoList
 } from "./styles";
 
-function controlSlide() {
-    const prev = () => {
-        console.log("prev")
+
+export default function Gallery({ images, options }) {
+	const { id } = useParams();
+	
+	const [gallery, setGallery] = useState({ 
+		"currIndex": 0, 
+		"loadImgs": false, 
+		"slideFlow": 0, 
+		"menuFlow": 0,
+		"range": 5,
+		"ini": 0,
+		"end": 4
+	});
+
+  const listMenu = useRef({});
+  const main_slider   = useRef({});
+  
+	if (images.length > 0 && !gallery.loadImgs) {
+		setGallery({
+			...gallery,
+			...{
+				"loadImgs": true,
+				"length": images.length - 1
+			}
+		})
+	}
+
+  const slideFlow = (i) => main_slider.current.offsetWidth * i;
+
+	const menuFlow = (ini) => ini * ((listMenu.current.offsetWidth * 20) / 100);
+
+	const handleClick = (e, i, dir = false) => {
+		let {
+			currIndex, 
+			length,
+			ini,
+			end
+		} = gallery;
+
+    if(dir == "prev" && i > 0) i--
+    if(dir == "next" && i < length) i++
+
+    if( i > currIndex ){
+      if(i == end && i < length){
+        ini++
+        end++
+      } 
     }
 
-    const next = () => {
-        console.log("next")
+    if( i < currIndex ){
+      if(i == ini && i > 0){
+        ini--
+        end--
+      }
     }
 
-    return {
-        prev,
-        next
-    }
-}
+		setGallery({
+		 	...gallery,
+		 	...{
+			    "currIndex": i,
+          "slideFlow": slideFlow(i),
+          "menuFlow": menuFlow(ini),
+          "ini": ini,
+          "end": end 
+		 	}
+    })
+	}
 
-export default function Gallery({images}) {
-    const { id } = useParams();
-    const [ gallery, setGallery ] = useState({"currIndex": 0, "loadImgs": false, "deslc": 0});
-
-    if(images.length > 0 && !gallery.loadImgs){
-        let imgsMap = {}, width = 0;
-
-        images.map((i,p) => {
-            imgsMap[p] = width;
-            width = width + 1009
-        })
-
-        setGallery({
-            ...gallery,
-            ...{"loadImgs": true, 
-                "length": images.length,
-                "imgsMap": imgsMap
-            }
-        })
-    }
-    
-    const handleClickArrow = (e, str) => {
-        let index = gallery.currIndex
-        
-        if(str === "prev" && index > 0) {   
-            --index
-        }else if(str === "next" && index < (images.length - 1)) {
-            index++
-        }
-
-        setGallery({
-            ...gallery, 
-            ...{"currIndex": index, 
-                "deslc": gallery.imgsMap[index]
-            }
-        })
-    }
-
-    const handleClickMenu = (idx) => {
-        console.log(idx)
-        setGallery({
-            ...gallery, 
-            ...{"currIndex": idx, 
-                "deslc": gallery.imgsMap[idx]
-            }
-        })
-    }
-
-    return (
-        <>
-        {gallery.imgsMap ? 
-            <section className="slide-images">
-                <Holder className="slide-holder">
-                    <Slider className="current-slide" deslc={gallery.deslc}>
-                        <div>
-                            {images.map((img, key) => <img key={key} src={`/images/builds/${id}/gallery/${img.name}.${img.extension}`} alt=""/>)}
-                        </div>
-                    </Slider>
-                    <Controls className="slideshow-controller">
-                        <ArrowField><ArrowPrev onClick={((e) => handleClickArrow(e, "prev"))} /></ArrowField>
-                        <ArrowField><ArrowNext onClick={((e) => handleClickArrow(e, "next"))} /></ArrowField>
-                    </Controls>
-                </Holder>
-                <MenuGallery className="menu-gallery">
-                    <div>
-                        <PhotoList length={images.length} deslc={gallery.deslc} idx={gallery.currIndex}>
-                            {images.map((img, key) => <PhotoGallery active={key === gallery.currIndex ? true : false} key={key} data-idx={key} onClick={(() => handleClickMenu(key))}><img src={`/images/builds/${id}/gallery/${img.name}.${img.extension}`} /></PhotoGallery>)}
-                        </PhotoList>
-                    </div>
-                    <Controls className="list-controller">
-                        <ArrowField><ArrowPrev onClick={((e) => handleClickArrow(e, "prev"))} /></ArrowField>
-                        <ArrowField><ArrowNext onClick={((e) => handleClickArrow(e, "next"))} /></ArrowField>
-                    </Controls>
-                </MenuGallery>
-            </section>
-            :
-            <div>No Images to Show</div>
-        }
-        </>
-    )
+	return (
+		<>
+			{images.length > 0 ?
+				<GalleryMain className="slide-images" ref={main_slider} >
+					<Holder className="slide-holder">
+						<Slider className="current-slide" flow={gallery.slideFlow} length={images.length}>
+							<div>
+								{images.map((img, key) => <img key={key} src={`/images/builds/${id}/gallery/${img.name}.${img.extension}`} alt="" />)}
+							</div>
+						</Slider>
+            <GridPos>
+              {images.map((i, key) => <GridPosItem active={key === gallery.currIndex ? true : false} ></GridPosItem>)}
+            </GridPos>
+						{options.control &&
+							<Controls className="slideshow-controller">
+								<ArrowField><ArrowPrev onClick={((e) => handleClick(gallery.currIndex-1))} /></ArrowField>
+								<ArrowField><ArrowNext onClick={((e) => handleClick(gallery.currIndex+1))} /></ArrowField>
+							</Controls>
+						}
+					</Holder>
+					<MenuGallery className="menu-gallery">
+						<MenuLIstGallery ref={listMenu}>
+							<PhotoList length={images.length} flow={gallery.menuFlow} idx={gallery.currIndex} >
+								{images.map((img, key) => <PhotoGallery 
+												className={`item-list-gal${key === gallery.currIndex ? " active" : ""}`}
+												active={key === gallery.currIndex ? true : false}
+												key={key}
+												data-idx={key}
+												onClick={((e) => handleClick(e, key))}>
+													<img src={`/images/builds/${id}/gallery/${img.name}.${img.extension}`} />
+									</PhotoGallery>)
+								}
+							</PhotoList>
+						</MenuLIstGallery>
+						<Controls className="list-controller" idx={gallery.currIndex} >
+							<ArrowField><ArrowPrev
+								onClick={((e) => handleClick(e, gallery.currIndex, "prev"))}
+							/></ArrowField>
+							<ArrowField><ArrowNext
+								onClick={((e) => handleClick(e, gallery.currIndex, "next"))}
+							/></ArrowField>
+						</Controls>
+					</MenuGallery>
+				</GalleryMain>
+				:
+				<div>No Images to Show</div>
+			}
+		</>
+	)
 }

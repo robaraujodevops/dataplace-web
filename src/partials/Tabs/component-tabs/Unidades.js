@@ -3,10 +3,11 @@ import Tables from "../../../partials/Tables"
 import { useParams } from "react-router-dom"
 
 export default props =>  {
+    const { active } = props.block;
     const {id} = useParams();
 
     return (
-        <div key="unidades" role="tabpanel" className="tab-pane fade" id="tab_unidades" aria-labelledby="unidades-tab" >
+        <div key="unidades" role="tabpanel" className={`tab-pane fade ${active ? "active in" : ""}`} id="tab_unidades" aria-labelledby="unidades-tab" >
             <Tables 
                 comp={{
                     "scope": "Unidades",
