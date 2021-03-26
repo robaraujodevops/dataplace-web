@@ -1,5 +1,6 @@
 import React from "react";
 import { clearClass } from "../../helpers";
+import { Tab } from "./style";
 
 export default function TabBar(props){
     const {component, tag, active} = props
@@ -20,14 +21,14 @@ export default function TabBar(props){
     return (
         <li role="presentation" 
             className={active}>
-            <a href="#"
+            <Tab href="#"
                id={component + "-tab"}
                role="tab"
                data-toggle="tab"
                aria-expanded="true"
                onClick={handleClick}>
                 {tag}
-            </a>
+            </Tab>
         </li>
     )
 }

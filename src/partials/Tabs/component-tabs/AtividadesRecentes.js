@@ -5,14 +5,14 @@ import { useParams } from "react-router-dom";
 
 export default props => {
     const {active} = props.block;
-    const {id} = useParams();
     const [activities, setActivies] = useState([])
+    const {id} = useParams();
 
     useEffect(() => {
         api.get(`/recent-activities?build_id=${id}`).then((resp) => {
             setActivies(resp.data)
         })
-    }, [])
+    }, [id])
 
     return (
         <div key="atividades-recentes" role="tabpanel" className={`tab-pane fade ${active ? "active in" : ""}`} id="tab_atividadesrecentes" aria-labelledby="atividadesrecentes-tab">
@@ -42,7 +42,7 @@ export default props => {
                                 <br />
                                 <p className="url">
                                     <span className="fs1 text-info" aria-hidden="true" data-icon=""></span>
-                                    <a href="#"><i className="fa fa-paperclip"></i> Ação do Usuário </a>
+                                    <span><i className="fa fa-paperclip"></i> Ação do Usuário </span>
                                 </p>
                             </div>
                         </li>

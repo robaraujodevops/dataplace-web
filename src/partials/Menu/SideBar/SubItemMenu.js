@@ -1,41 +1,28 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom";
+import { SubItemMenuGrid, ItemSub } from "./styles";
 
 export default function SubItemMenu(props) {
     const mainPage = props.page;
-
     const [items, setItems] = useState(props.data)
 
-    const toggle = (ev) => {
-        ev.preventDefault()
-        ev.stopPropagation()
-        let page = ev.currentTarget.dataset.page
-        
-        items.map((item) =>{
-            item.active = item.page === page ? true : false
-        })
-
-        setItems([...items])
-    }
-
     return (
-        <ul className="nav child_menu">
-            {items.map(({name,page,active}) => 
-                <li 
+        <SubItemMenuGrid className="nav child_menu" {...props}>
+            {items.map(({name,page}) => 
+                <ItemSub 
                     key={name}
-                    className={active ? "active" : ""}
-                    onClick={toggle}
-                    data-page={page}>
-                    
+                    data-page={page}
+                    active={(props.subPage.classe == page ? true : false)} >
+
                     <Link to={
                         {
-                            pathname: mainPage + page + "/"
+                            pathname: mainPage + "/" + page + "/"
                         }
                     }>
                         {name}
                     </Link>
-                </li> 
+                </ItemSub> 
             )}
-        </ul>
+        </SubItemMenuGrid>
     )
 }

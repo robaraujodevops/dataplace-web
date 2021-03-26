@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { capitalize } from "../../helpers"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -13,10 +13,9 @@ export default function Predios({page, subpage}) {
     const param = useParams().classe
     const [classe, setClasse] = useState(param);
     
-    if (classe != param) setClasse(param)
+    if (classe !== param) setClasse(param)
 
     return (
-        <div className="row">
             <div className="col-md-12 col-sm-12 col-xs-12">
                 <div className="x_panel">
                     <div className="x_title">
@@ -81,6 +80,5 @@ export default function Predios({page, subpage}) {
                     </div>
                 </div>
             </div>
-        </div>
     )
 }

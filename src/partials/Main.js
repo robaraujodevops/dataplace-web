@@ -1,41 +1,44 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
 import { capitalize } from "../helpers"
 import Analytics from "../pages/Analytics/";
-import Unidades from "../pages/Unidades/";
+import Imoveis from "../pages/Imoveis/";
 import Predios from "../pages/Predios/";
 import Predio from "../pages/Predio/";
-import Proprietarios from "../pages/Proprietarios/";
+import Contatos from "../pages/Contatos/";
 
 export default function Main(props){
-    const { page, params } = props;
+    const { page, params, title } = props;
+
     const getComponent = (page) => {
-        console.log(page)
         switch(page){
-            case "analytics":
+            case "/admin/analytics":
                 return <Analytics {...props} />
-            case "proprietarios":
-                return <Proprietarios {...props} />
-            case "unidades":
-                return <Unidades {...props}/>
-            case "predios":
+            case "/admin/contatos":
+                return <Contatos {...props} />
+            case "/admin/imoveis":
+                return <Imoveis {...props}/>
+            case "/admin/predios":
                 return <Predios {...props} />
-            case "predio":
+            case "/admin/predio":
                 return <Predio {...props} />
             default:
-                return <div></div>
+                return <div>Not Found</div>
         }
     }
 
-    let title = "Admin - " + capitalize(page)
-    title += params.id ? " - " + params.id : "" 
+    // let title = 
+    // title += params.id ? " - " + params.id : ""
 
     return (
         <>
-            <Helmet title={title} />
+            <Helmet title={"Admin - " + capitalize(title)} />
             <div className="right_col" role="main">
 
                 <div className="clearfix"></div>
+                
+                {/* <TopNav /> */}
+
                 {getComponent(page)}
 
             </div>

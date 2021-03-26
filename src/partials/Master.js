@@ -1,41 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
+import { parsePageData, filteredMenu } from "../helpers/index";
 import Menu from "./Menu";
 import TopNav from "./TopNav";
-import { SideBarContext } from "./Contexts";
-import { MainContentContext } from "./Contexts";
-import api from "../services/api";
 import Main from "./Main";
-import { useContext } from "react";
+import { MenuContext } from "../contexts/menu";
 
 export default function Master(props) {
-  const [user, setUser] = useState({});
-  const [menuColapse, setMenuColapse] = useState(false);
-  
-  const mainData = {
-    page: props.page,
-    subpage: props.location.subpage  || undefined
-  };
 
-  const handleClick = () => {
-    setMenuColapse(!menuColapse);
-  };
+  const { menuContext } = useContext(MenuContext);
+  const parseData = parsePageData(props.match, menuContext.dataMenu);  
 
-  useEffect(() => {
-    api.get("/sessions").then((resp) => {
-      setUser(resp.data)
-    })
-    
-  }, []);
-  
   return (
-      <div className={"container body " + (menuColapse ? "nav-sm" : "nav-md") } >
-      <MainContentContext.Provider value={{user}}>
+      <div className={"container body nav-sm"} >
         <div className="main_container">
-            <Menu colapse={menuColapse} page={mainData.page} subPage={mainData.subpage} />          
-            <TopNav handleClick={handleClick} />
-            <Main page={mainData.page} subPage={mainData.subpage} params={props.match.params}/>
+          <TopNav />
+          <section>
+            <Menu menu={menuContext} {...parseData} />
+            <Main {...parseData} />
+          </section>
         </div>
-      </MainContentContext.Provider>
       </div>
   )
 }

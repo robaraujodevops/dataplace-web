@@ -31,7 +31,7 @@ export const Slider = styled.section`
     }
 
     div{
-        min-width: calc(${props => props.length} * 1009px);
+        min-width: calc(${props => props.length} * ${props => props.width}px);
         right: ${props => props.flow}px;
         position: relative;
         -webkit-transition: all 1s ease;
@@ -41,7 +41,7 @@ export const Slider = styled.section`
         transition: all 1s ease;
 
         img{
-            width: 1009px
+            width: ${props => props.width}px
         }
     }
 `;

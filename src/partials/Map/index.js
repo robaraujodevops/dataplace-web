@@ -4,7 +4,6 @@ import apiMap from '../../services/apiMap';
 import "./style.scss"
 
 export default function Map(props) {
-    const [map, setMap] = useState(null);
     const mapContainer = useRef(null);
     const [ center, setCenter ] = useState(null);
     const { search = "" } = props
@@ -24,27 +23,24 @@ export default function Map(props) {
           });
     }, [search])
 
-        useEffect(() => {
-            mapboxgl.accessToken = `${process.env.REACT_APP_MAP_TOKEN}`;
-            const initializeMap = ({ setMap, mapContainer }) => {
-                const map = new mapboxgl.Map({
-                  container: mapContainer.current,
-                  style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-                  center: center,
-                  zoom: 16
-                });
-          
-                map.on("load", () => {
-                  setMap(map);
-                  map.resize();
-                });
-            };
+    useEffect(() => {
+        mapboxgl.accessToken = `${process.env.REACT_APP_MAP_TOKEN}`;
+        const initializeMap = ({ setMap, mapContainer }) => {
+            const map = new mapboxgl.Map({
+                container: mapContainer.current,
+                style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+                center: center,
+                zoom: 16
+            });
+        
+            map.on("load", () => {
+                map.resize();
+            });
+        };
 
-            if(center){
-                if (!map) initializeMap({ setMap, mapContainer });
-            }
+        if(center) initializeMap({ mapContainer });
 
-        }, [center])
+    }, [center])
 
     return (
         <div ref={el => (mapContainer.current = el)} style={styles}></div>

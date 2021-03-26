@@ -1,25 +1,32 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "./styles";
-import { MainContentContext } from "../Contexts";
+import { Button, NavMenu, DropDownNav } from "./styles";
+import { RootContext } from "../../contexts/root";
 import { Link } from "react-router-dom";
 
 export default function NavBarRight() {
-    const { user } = useContext(MainContentContext)
+    const { userContext } = useContext(RootContext);
+    const [ active, setActive ] = useState(false);
 
     return (
         <ul className="nav navbar-nav navbar-right">
-            <li className="">
+            <NavMenu className="" onMouseLeave={() => setActive(false)}>
+
                 <Button className="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="" />{user.name} {user.last_name}
-                    <FontAwesomeIcon 
-                        icon={['fas', 'chevron-down']} 
-                        className="fa" 
-                    />
+                    {userContext.user.id && <img src={`/images/admin/users/${userContext.user.id}.jpeg`} alt="..." />}
+                    <div>
+                        <span>
+                            {`${userContext.user.name} ${userContext.user.last_name}`}
+                        </span>
+                    </div>
+                        <FontAwesomeIcon 
+                            icon={['fas', `${active ? 'chevron-up' : 'chevron-down'}`]} 
+                            className="fa" onClick={() => setActive(!active)}
+                        />
                 </Button>
-                <ul className="dropdown-menu dropdown-usermenu pull-right">
+                <DropDownNav className="dropdown-menu dropdown-usermenu pull-right" active={ active } >
                     <li>
-                        <Link to="">> Profile</Link>
+                        <Link to={`/admin/perfil/${userContext.user.id}`}>> Profile</Link>
                     </li> 
                     <li>
                         <Button>
@@ -27,10 +34,16 @@ export default function NavBarRight() {
                             <span>Settings</span>
                         </Button>
                     </li>
-                    <li><Link to="">>Help</Link></li>
-                    <li><Link to="">><i className="fa fa-sign-out pull-right"></i> Log Out</Link></li>
-                </ul>
-            </li>
+                    <li>
+                        <Link to="">>Help</Link>
+                    </li>
+                    <li>
+                        <Link to="/logout">>
+                            <i className="fa fa-sign-out pull-right"></i> Log Out
+                        </Link>
+                    </li>
+                </DropDownNav>
+            </NavMenu>
 
             <li role="presentation" className="dropdown">
                 <Button className="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">

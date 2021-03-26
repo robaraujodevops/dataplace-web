@@ -1,27 +1,34 @@
-import React from "react";
-import { Navbar } from "./styles";
+import React, { useEffect, useState } from "react";
+import { BackGroundOpenMenu, MenuGrid } from "./styles";
 
-import Profile from "./Profile";
 import SideBar from "./SideBar/";
-import SideBarFooter from "./SideBarFooter";
 
 export default function Menu(props) {
-    const { page, subPage } = props;
+    const { page, subPage, menu } = props;
+    const [ activeMenu, setActiveMenu ] = useState(false)
     
-    return (
-        <div className="col-md-3 left_col menu_fixed">
-            <div className="left_col scroll-view">
-                <Navbar className="navbar nav_title">
-                    <a href="index.html" className="site_title">
-                        <span>Dataplace Admin!</span>
-                    </a>
-                </Navbar>
-                <div className="clearfix"></div>
+    const toggleActive = () => {
+        setActiveMenu(!activeMenu)
+    }
 
-                <Profile />
-                <SideBar page={page} subPage={subPage} />
-                <SideBarFooter />
-            </div>
+    useEffect(() => {
+        menu.setMenu(menu.dataMenu.map((i) => {
+            return {...i, active: ((page.includes(i.page)) ? true : false)}
+        }))
+    }, [])
+
+    return (
+        <div className="col-md-3 left_col menu_fixed" onMouseEnter={toggleActive} onMouseLeave={toggleActive} >
+                <MenuGrid className="left_col scroll-view">
+                    <SideBar 
+                        page={page}
+                        subPage={subPage}
+                        menu={menu}
+                        activeMenu={activeMenu}
+                    />
+                    {/* <SideBarFooter /> */}
+                </MenuGrid>
+                <BackGroundOpenMenu activeMenu={activeMenu}></BackGroundOpenMenu>
         </div>
     )
 }

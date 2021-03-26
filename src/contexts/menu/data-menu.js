@@ -1,4 +1,4 @@
-export const dataMenu = 
+export const Menu = 
 [
     {
         title: "Analytics",
@@ -38,24 +38,20 @@ export const dataMenu =
         title: "Prédios",
         page: "/admin/predios",
         icon: "city",
-        active: false,
     },
     {
         title: "Agenda",
         page: "/admin/agenda",
         icon: "calendar",
-        active: false
     },
     {
         title: "Configurações",
         page: "/admin/configuracoes",
         icon: "cogs",
-        active: false,
         sub: [
             {
                 name: "Plataforma",
                 page: "plataforma",
-                active: false
             }
         ]
     }

@@ -1,20 +1,28 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { PrivateRoute } from "./services/auth";
+import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import SignIn from "./pages/SignIn";
+import Logout from "./pages/Logout";
 import Master from "./partials/Master";
+import { Redirect } from "react-router-dom";
 
 const Routes = () => (
     <BrowserRouter>
         <Switch>
-            <Route exact path="/signin" component={ SignIn } />
-            <Route exact path="/signup" component={ SignUp } />
-            <PrivateRoute exact path="/admin/analytics" component={ Master } page="analytics" />
-            <PrivateRoute exact path="/admin/unidades" component={ Master } page="unidades" />
-            <PrivateRoute exact path="/admin/proprietarios" component={ Master } page="proprietarios" />
-            <PrivateRoute exact path="/admin/predios/:classe?" component={ Master } page="predios" />
-            <PrivateRoute exact path="/admin/predio/:id" component={ Master } page="predio" />
+            <Route path="/login" component={ Login } />
+            <Route path="/signup" component={ SignUp } />
+            <PrivateRoute exact path="/logout" component={ Logout } />
+            <PrivateRoute exact path="/admin/analytics" component={ Master } />
+            <PrivateRoute exact path="/admin/negociacoes" component={ Master } />
+            <PrivateRoute exact path="/admin/imoveis" component={ Master } />
+            <PrivateRoute exact path="/admin/contatos/:classe?" component={ Master } />
+            <PrivateRoute exact path="/admin/predios/:classe?" component={ Master } />
+            <PrivateRoute exact path="/admin/predio/:id" component={ Master } />
+            <PrivateRoute exact path="/admin/agenda/" component={ Master } />
+            <PrivateRoute exact path="/admin/configuracoes/:classe?" component={ Master } />
+            <PrivateRoute exact path="/admin/perfil/:user?" component={ Master } />
+            <PrivateRoute exact path="/" component={() => <Redirect to="/admin/analytics"/> } />
             <Route path="*" component={() => <h1>Page Not Found</h1> } />
         </Switch>
     </BrowserRouter>

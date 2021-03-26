@@ -5,15 +5,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Tables from "../../partials/Tables"
 import { Link } from "react-router-dom";
 
-Unidades.propTypes = {
+Contatos.propTypes = {
     page: PropTypes.string.isRequired,
-    subpage: PropTypes.string.isRequired
+    subpage: PropTypes.string
 }
-
-export default function Unidades({page,subpage}) {
+export default function Contatos({page,subpage}) {
 
     return (
-        <div className="row">
+        <>
             <div className="col-md-12 col-sm-12 col-xs-12">
                 <div className="x_panel">
                     <div className="x_title">
@@ -28,11 +27,11 @@ export default function Unidades({page,subpage}) {
                                 </Link>
                             </li>
                             <li className="dropdown">
-                                <Link to="" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></Link>
+                                <Link className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></Link>
                                 <ul className="dropdown-menu" role="menu">
-                                    <li><Link to="">Settings 1</Link>
+                                    <li><Link>Settings 1</Link>
                                     </li>
-                                    <li><Link to="">Settings 2</Link>
+                                    <li><Link>Settings 2</Link>
                                     </li>
                                 </ul>
                             </li>
@@ -50,16 +49,14 @@ export default function Unidades({page,subpage}) {
                     <div className="x_content">
                         <Tables 
                             comp={{
-                                "scope": "Unidades",
-                                "holder": "Nome do Prédio"
+                                "scope": "Proprietários",
+                                "holder": "Nome do Prorprietário"
                             }}
-                            src="units"
-                            colsTh={["ID","Nome do Prédio","Unidade","Compl"]}
+                            src="owners"
+                            colsTh={["ID","Nome do Proprietário"]}
                             cols={[
-                                { data: "id"}, 
-                                { data: "build_name" },
-                                { data: "uh" },
-                                { data: "comp" }
+                                { data: "id"},
+                                { data: "owner_name" }
                             ]}
                             colDefs={[
                                 {
@@ -69,22 +66,12 @@ export default function Unidades({page,subpage}) {
                                         return `<a href='${data}'><b>${data}</b></Link>`
                                     }
                                 },
-                                {
-                                    "targets": 1,
-                                    "data": "build_id",
-                                    "render": function ( data ) {
-                                        return `<a href='${data}'><b>${data}</b></Link>`
-                                    }
-                                },
-                                { width: "10%", targets: 0 },
-                                { width: "60%", targets: 1 },
-                                { width: "15%", targets: 2 },
-                                { width: "15%", targets: 3 }
+                                { width: 500, targets: 1 }
                             ]}
                         />
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }

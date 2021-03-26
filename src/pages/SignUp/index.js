@@ -1,34 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { useForm, ErrorMessage } from "react-hook-form";
-import api from "../../services/api";
-import { customBackendErrors } from "../../helpers";
-import { Helmet } from "react-helmet";
-import { Link, useHistory } from "react-router-dom";
-
-import { Form, Container, Section } from "./styles";
+import api                            from "../../services/api";
+import { useForm, ErrorMessage }      from "react-hook-form";
+import { customBackendErrors }        from "../../helpers";
+import { Helmet }                     from "react-helmet";
+import { Link, useHistory }           from "react-router-dom";
+import { Form, Container, Section }   from "./styles";
 
 export default function SignUp() {
     const [username, setUsername] = useState('')
-    const [email, setEmail] = useState('')
+    const [email, setEmail]       = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
-
-    const { register, errors, handleSubmit } = useForm()
-    const history = useHistory();
-
+    //const [error, setError]       = useState('')
+    const { register, errors, setError, handleSubmit } = useForm()
+    const history                            = useHistory();
+    
     const handleSingUp = async formData => {
         try{
-            const { data } = await api.post( "/users", formData );
-            
-            if( data.name && data.name === "error" ){
-                setError(customBackendErrors(data.code));
+            const data = await api.post( "/users", formData, {
+                validateStatus: status => status < 500
+            }).catch(error => setError(error.toJSON()));
+
+            if( data.err ){
+                setError(customBackendErrors( data.err.code ));
             } else {
-                history.push("/");
+                history.push("/login");
             }
 
         } catch( err ) {
            setError(err.message);
         }
+
+        console.log(errors)
     }
 
     useEffect(() => {
@@ -37,10 +39,9 @@ export default function SignUp() {
 
     return (
         <>
-        <Helmet title="Dataplace - Admin - Signup" />
-        <Container>
-            {/*<a className="hiddenanchor" id="signup"></a>
-            <a className="hiddenanchor" id="signin"></a>*/}
+            <Helmet title="Dataplace - Admin - Signup" />
+            {/* <a className="hiddenanchor" id="signup"></a>
+            <a className="hiddenanchor" id="signin"></a> */}
 
             <Container className="login_wrapper">
                 <Container id="register" className="animate form registration_form">
@@ -52,13 +53,27 @@ export default function SignUp() {
                                 type="text" 
                                 className="form-control" 
                                 required="" 
-                                placeholder="Nome do Usuário"
-                                name="username"
+                                placeholder="Nome"
+                                name="name"
                                 ref={register({required: true})}
                                 onChange={(e) => setUsername(e.target.value)}
                             />
-                            <ErrorMessage errors={errors} name="username">
-                                {({ message }) => <p className="error">* Insira o nome de usuário</p>}
+                            <ErrorMessage errors={errors} name="name">
+                                {({ message }) => <p className="error">* Insira o nome do usuário</p>}
+                            </ErrorMessage>
+                        </Container>
+                        <Container>
+                            <input 
+                                type="text" 
+                                className="form-control" 
+                                required="" 
+                                placeholder="Sobrenome"
+                                name="last_name"
+                                ref={register({required: true})}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                            <ErrorMessage errors={errors} name="last_name">
+                                {({ message }) => <p className="error">* Insira o sobrenome do usuário</p>}
                             </ErrorMessage>
                         </Container>
                         <Container>
@@ -94,13 +109,13 @@ export default function SignUp() {
                         </Container>
                         <Container>
                             <button type="submit" className="btn btn-default submit">Submit</button>
-                            {error && <p className="error">{error}</p>}
+                            {/* {error && <p className="error">{error}</p>} */}
                         </Container>
 
                         <Container className="clearfix"></Container>
                         <Container className="separator">
                             <p className="change_link">Já possui conta ?
-                            <Link to="/signin" className="to_register"> Acessar </Link>
+                            <Link to="/login" className="to_register"> Acessar </Link>
                             </p>
 
                             <Container className="clearfix"></Container>
@@ -114,7 +129,6 @@ export default function SignUp() {
                     </Section>
                 </Container>
             </Container>
-        </Container>
         </>
     )
 }

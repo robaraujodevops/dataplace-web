@@ -27,7 +27,8 @@ export default function Gallery({ images, options }) {
 		"menuFlow": 0,
 		"range": 5,
 		"ini": 0,
-		"end": 4
+    "end": 4,
+    "width": 0
 	});
 
   const listMenu = useRef({});
@@ -38,7 +39,8 @@ export default function Gallery({ images, options }) {
 			...gallery,
 			...{
 				"loadImgs": true,
-				"length": images.length - 1
+        "length": images.length - 1,
+        "width": 1009
 			}
 		})
 	}
@@ -55,18 +57,18 @@ export default function Gallery({ images, options }) {
 			end
 		} = gallery;
 
-    if(dir == "prev" && i > 0) i--
-    if(dir == "next" && i < length) i++
+    if(dir === "prev" && i > 0) i--
+    if(dir === "next" && i < length) i++
 
     if( i > currIndex ){
-      if(i == end && i < length){
+      if(i === end && i < length){
         ini++
         end++
       } 
     }
 
     if( i < currIndex ){
-      if(i == ini && i > 0){
+      if(i === ini && i > 0){
         ini--
         end--
       }
@@ -89,7 +91,7 @@ export default function Gallery({ images, options }) {
 			{images.length > 0 ?
 				<GalleryMain className="slide-images" ref={main_slider} >
 					<Holder className="slide-holder">
-						<Slider className="current-slide" flow={gallery.slideFlow} length={images.length}>
+						<Slider className="current-slide" flow={gallery.slideFlow} length={images.length} width={gallery.width}>
 							<div>
 								{images.map((img, key) => <img key={key} src={`/images/builds/${id}/gallery/${img.name}.${img.extension}`} alt="" />)}
 							</div>
@@ -113,7 +115,7 @@ export default function Gallery({ images, options }) {
 												key={key}
 												data-idx={key}
 												onClick={((e) => handleClick(e, key))}>
-													<img src={`/images/builds/${id}/gallery/${img.name}.${img.extension}`} />
+													<img src={`/images/builds/${id}/gallery/${img.name}.${img.extension}`} alt="photolist" />
 									</PhotoGallery>)
 								}
 							</PhotoList>

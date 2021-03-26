@@ -16,7 +16,7 @@ Tables.propTypes = {
 
 export default function Tables({comp,src,cols,colDefs,colsTh}) {
     const [tableSrc, setTableSrc] = useState(src)
-    if (tableSrc != src) setTableSrc(src)
+    if (tableSrc !== src) setTableSrc(src)
 
     useEffect(() => {
         $("#datatable").DataTable().destroy()
@@ -52,7 +52,7 @@ export default function Tables({comp,src,cols,colDefs,colsTh}) {
             "columns": cols,
             "columnDefs": colDefs
         })
-    }, [tableSrc])
+    }, [tableSrc, comp, colDefs, cols])
 
     return (
         <>
